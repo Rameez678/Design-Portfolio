@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova | Final Year Project</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo">NOVA</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="project">
+    <p class="label">FINAL YEAR DISSERTATION</p>
+    <h1>Full E-commerce Website</h1>
+
+    <!-- Technologies used -->
+    <div class="tags">
+      <span>React</span>
+      <span>Vite</span>
+      <span>Tailwind CSS</span>
+      <span>React Router</span>
+      <span>Node.js</span>
+      <span>Express</span>
+      <span>MongoDB</span>
+      <span>AWS Amplify</span>
+      <span>Nodemailer</span>
+    </div>
+
+    <h2>Overview</h2>
+    <p>
+      For my final year dissertation I builta full online store for
+      designer clothing, trainers and fragrances. It has two parts: a
+      <strong>front end</strong> (the website people see, built with React and
+      Tailwind CSS) and a <strong>back end</strong> (a Node.js and Express server
+      connected to a MongoDB database). They talk to each other through a REST API.
+    </p>
+
+    <img src="Images/projects/final-shop.png" alt="Shop page showing products in a grid">
+
+    <h2>Main features</h2>
+    <ul>
+      <li>Shop page with filters and a grouped or single product view</li>
+      <li>Product pages with sizes, colour options and a "viewed" counter</li>
+      <li>Basket, checkout and order history</li>
+      <li>Liked items (wishlist) saved to the user's account</li>
+      <li>User login with a protected dashboard</li>
+      <li>Search bar across all products</li>
+      <li>Language (English, French, Spanish) and currency (GBP, USD, EUR) switcher</li>
+      <li>"For You" product suggestions and a live-chat helper bubble</li>
+      <li>Contact form that sends a real email using Nodemailer</li>
+    </ul>
+
+    <img src="Images/projects/final-product.png" alt="Product page with size selection and add to basket button">
+
+    <h2>How it works</h2>
+    <p>
+      The back end has separate routes for users, products, baskets, orders, likes,
+      views and contact messages. The React front end calls these routes to load
+      products, save the basket and place orders. All the data is stored in MongoDB.
+    </p>
+
+    <img src="Images/projects/final-collections.png" alt="Collections page">
+    <img src="Images/projects/final-contact.png" alt="Contact us form">
+
+    <!-- Buttons linking to the code on GitHub. target="_blank" opens a new tab -->
+    <div class="buttons">
+      <a href="https://github.com/Rameez678/Frontend" target="_blank" class="button">Front end code</a>
+      <a href="https://github.com/Rameez678/Backend" target="_blank" class="button">Back end code</a>
+      <a href="portfolio.html" class="button button-outline">Back to portfolio</a>
+    </div>
+  </main>
+
+</body>
+</html>

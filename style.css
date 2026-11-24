@@ -1,0 +1,386 @@
+/* =========================================
+   NOVA PORTFOLIO - ONE STYLESHEET FOR ALL PAGES
+   ========================================= */
+
+/* ---------- 1. Load the Roboto font from the Fonts folder ---------- */
+@font-face {
+  font-family: "Roboto";
+  src: url("Fonts/Roboto-Regular.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("Fonts/Roboto-Bold.ttf");
+  font-weight: bold;
+}
+
+/* ---------- 2. Basic reset (removes browser default spacing) ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", Arial, sans-serif;
+  background-color: #1c1e22; /* dark grey from the designs */
+  color: white;
+  min-height: 100vh;
+}
+
+/* ---------- 3. Header: logo on the left, menu on the right ---------- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+}
+
+.logo {
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: white;
+  text-decoration: none;
+}
+
+nav a {
+  display: inline-block;
+  padding: 8px 25px;
+  margin-left: 5px;
+  background-color: #3a3733;
+  border: 1px solid #9a9a9a;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+nav a:hover {
+  background-color: white;
+  color: black;
+}
+
+/* ---------- 4. White button (used on Home, About, Services, Contact) ---------- */
+.button {
+  display: inline-block;
+  background-color: white;
+  color: black;
+  padding: 14px 50px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #cccccc;
+}
+
+/* ---------- 5. HOME page ---------- */
+.home {
+  background-color: #0b0b0b;
+  background-image: url("Images/hero-image.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero {
+  max-width: 500px;
+  margin-top: 250px;
+  margin-left: 50px;
+}
+
+.hero h1 {
+  font-size: 60px;
+  font-weight: normal;
+  margin: 25px 0;
+}
+
+.hero p {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+/* ---------- 6. ABOUT and SERVICES pages (two columns) ---------- */
+.two-columns {
+  display: flex;
+  gap: 80px;
+  max-width: 1100px;
+  margin: 150px auto;
+  padding: 0 30px;
+}
+
+.two-columns .left {
+  flex: 1;
+}
+
+.two-columns .right {
+  flex: 2;
+}
+
+.about-small {
+  font-size: 28px;
+  font-weight: normal;
+}
+
+.about-big {
+  font-size: 64px;
+  font-weight: normal;
+  margin-top: 30px;
+  line-height: 1.1;
+}
+
+.right p {
+  line-height: 1.4;
+  margin-bottom: 25px;
+}
+
+/* Services: 4 boxes in a 2x2 grid */
+.services-title {
+  font-size: 56px;
+  font-weight: normal;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 4px solid white; /* the white line under the services */
+}
+
+.services-grid h2 {
+  font-size: 28px;
+  font-weight: normal;
+  margin-bottom: 15px;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* ---------- 7. PORTFOLIO page (grid of project cards) ---------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1150px;
+  margin: 40px auto;
+  padding: 0 30px;
+}
+
+/* Each card is one big link */
+.card {
+  color: white;
+  text-decoration: none;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 16 / 10; /* every picture is the same shape */
+  object-fit: cover;     /* crops the picture to fill the shape */
+  object-position: top;
+  display: block;
+}
+
+.card:hover img {
+  opacity: 0.7;
+}
+
+.label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #9a9a9a;
+  margin-top: 12px;
+}
+
+.card h2 {
+  font-size: 22px;
+  font-weight: normal;
+  margin: 5px 0;
+}
+
+.card p {
+  font-size: 15px;
+  line-height: 1.4;
+  color: #cccccc;
+}
+
+/* Single project page */
+.project {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 0 30px;
+}
+
+.project h1 {
+  font-size: 44px;
+  font-weight: normal;
+  margin: 5px 0 20px;
+}
+
+.project h2 {
+  font-size: 26px;
+  font-weight: normal;
+  margin: 35px 0 15px;
+}
+
+.project img {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #3a3733;
+}
+
+.project p,
+.project li {
+  line-height: 1.6;
+}
+
+.project p {
+  margin-bottom: 20px;
+}
+
+.project ul {
+  margin-left: 20px;
+}
+
+/* Little grey boxes showing the technologies used */
+.tags span {
+  display: inline-block;
+  border: 1px solid #9a9a9a;
+  padding: 4px 12px;
+  margin: 0 5px 8px 0;
+  font-size: 14px;
+}
+
+/* Row of buttons at the bottom */
+.buttons {
+  margin: 30px 0;
+}
+
+.buttons a {
+  margin: 0 10px 10px 0;
+}
+
+/* A see-through version of the white button */
+.button-outline {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.button-outline:hover {
+  background-color: white;
+  color: black;
+}
+
+/* ---------- 8. CONTACT page ---------- */
+.contact {
+  background-color: #0b0b0b;
+  background-image: url("Images/contact-page-image.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.contact-box {
+  max-width: 1000px;
+  margin: 100px auto;
+  padding: 0 30px;
+}
+
+.contact-box h1 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+form {
+  background-color: #1c1e22;
+  padding: 30px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #1c1e22;
+  border: 1px solid #9a9a9a;
+  color: white;
+  font-size: 16px;
+}
+
+.social {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.social a {
+  color: white;
+  font-size: 40px;
+  margin-left: 10px;
+}
+
+/* ---------- 9. PHONES and small screens ---------- */
+/* Everything inside here only applies when the screen is 800px wide or less */
+@media (max-width: 800px) {
+  header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* let the menu buttons wrap onto a second line instead of going off screen */
+  nav {
+    width: 100%;
+    text-align: center;
+  }
+
+  nav a {
+    padding: 6px 10px;
+    font-size: 14px;
+    margin: 2px;
+  }
+
+  .hero {
+    margin: 100px 20px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .two-columns {
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px auto;
+  }
+
+  .about-big,
+  .services-title {
+    font-size: 40px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .project h1 {
+    font-size: 32px;
+  }
+
+  .contact-box {
+    margin: 40px auto;
+  }
+}

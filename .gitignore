@@ -1,0 +1,12 @@
+# Not needed on the live website
+Fonts/Roboto.zip
+Documentation/
+Designs/
+
+# Never upload secrets or system files
+.env
+*.env
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini

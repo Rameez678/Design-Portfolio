@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Van Blanc — Minimal E-commerce</title>
+
+  <link rel="stylesheet" href="../src/output.css" />
+
+  <style>
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+    appearance: textfield;
+    }
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 selection:bg-black selection:text-white">
+  <div class="bg-black text-white text-sm">
+    <div class="mx-auto max-w-7xl px-4 py-2 text-center">
+      Free UK shipping on orders over £50
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-40 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button id="btnMobileNav" class="rounded-xl p-2 hover:bg-neutral-100 lg:hidden" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <a href="#" class="text-xl font-semibold tracking-tight">Van Blanc</a>
+        </div>
+
+        <div class="hidden md:block md:flex-1 md:max-w-lg">
+          <label class="relative block">
+            <span class="sr-only">Search products</span>
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
+              </svg>
+            </span>
+            <input
+              id="searchInput"
+              class="w-full rounded-xl border bg-white/70 py-2 pl-10 pr-3 outline-none focus:ring-2 focus:ring-neutral-900"
+              placeholder="Search products… (Jersey)"
+            />
+          </label>
+        </div>
+
+        <nav class="hidden items-center gap-6 lg:flex">
+          <a href="#catalog" class="hover:underline">Shop</a>
+          <a href="#catalog" class="hover:underline">New</a>
+          <a href="#catalog" class="hover:underline">Sale</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <button id="btnTheme" class="rounded-xl p-2 hover:bg-neutral-100" aria-label="Toggle theme">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21.64 13A9 9 0 1 1 11 2.36 7 7 0 0 0 21.64 13z" />
+            </svg>
+          </button>
+          <button id="btnLogin" class="hidden items-center gap-2 rounded-xl border px-3 py-2 text-sm hover:bg-neutral-50 sm:inline-flex">
+            Sign in
+          </button>
+          <button id="btnCart" class="relative rounded-xl p-2 hover:bg-neutral-100" aria-label="Open cart">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l3-8H6.4M7 13l-2-8H3M7 13l-1.293 1.293A1 1 0 0 0 6 16h12m0 0a2 2 0 1 0 0 4m-12-4a2 2 0 1 0 0 4" />
+            </svg>
+            <span id="cartCount" class="absolute -right-1 -top-1 rounded-full bg-neutral-900 px-1.5 text-xs text-white">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pb-3 md:hidden">
+        <label class="relative block">
+          <span class="sr-only">Search products</span>
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
+              </svg>
+          </span>
+          <input
+            id="searchInputMobile"
+            class="w-full rounded-xl border bg-white/70 py-2 pl-10 pr-3 outline-none focus:ring-2 focus:ring-neutral-900"
+            placeholder="Search products…"
+          />
+        </label>
+      </div>
+    </div>
+
+    <div id="mobileNav" class="hidden border-t bg-white lg:hidden">
+      <nav class="mx-auto grid max-w-7xl gap-3 px-4 py-3">
+        <a href="#catalog" class="py-2">Shop</a>
+        <a href="#catalog" class="py-2">New</a>
+        <a href="#catalog" class="py-2">Sale</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="bg-gradient-to-b from-neutral-100 to-white">
+    <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2">
+      <div>
+        <h1 class="text-4xl font-semibold tracking-tight md:text-5xl">
+          Van Blanc streetwear, built to stand out.
+        </h1>
+        <p class="mt-4 text-neutral-600">
+          Shop the latest Van Blanc drops, including the Obsidian Jersey, Blackout Windbreaker, and Beautiful Lies Knit.
+        </p>
+        <div class="mt-6 flex gap-3">
+          <a href="#catalog" class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-2.5 text-white hover:bg-neutral-800">
+            Shop now
+          </a>
+          <a href="#about" class="inline-flex items-center justify-center rounded-xl border px-5 py-2.5 hover:bg-neutral-50">
+            Our story
+          </a>
+        </div>
+      </div>
+
+      <div class="flex min-h-[420px] items-center justify-center rounded-2xl bg-white p-6 shadow-sm">
+        <img
+          src="./assets/black-windbreaker.webp"
+          alt="Van Blanc Blackout Brazil OG Windbreaker"
+          class="max-h-[420px] w-full object-contain"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="catalog" class="mx-auto max-w-7xl px-4 py-8">
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div class="flex flex-wrap items-center gap-2">
+        <button data-filter="all" class="filter-chip active">All</button>
+        <button data-filter="apparel" class="filter-chip">Clothing</button>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <label class="flex items-center gap-2 text-sm">
+          <span>Price £</span>
+          <input id="minPrice" type="number" min="0" step="1" class="w-20 rounded-xl border px-2 py-1" placeholder="min" />
+          <span>–</span>
+          <input id="maxPrice" type="number" min="0" step="1" class="w-20 rounded-xl border px-2 py-1" placeholder="max" />
+        </label>
+
+        <select id="sortSelect" class="rounded-xl border px-3 py-2 text-sm">
+          <option value="popular">Sort: Popular</option>
+          <option value="priceAsc">Price: Low to High</option>
+          <option value="priceDesc">Price: High to Low</option>
+          <option value="newest">Newest</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <main class="mx-auto max-w-7xl px-4 pb-16">
+    <div id="productsGrid" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <div id="emptyState" class="hidden py-16 text-center text-neutral-600">
+      No products match your filters.
+    </div>
+  </main>
+
+  <aside id="cartDrawer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" id="cartBackdrop" aria-hidden="true"></div>
+    <div class="absolute right-0 top-0 grid h-full w-full max-w-md grid-rows-[auto,1fr,auto] bg-white shadow-xl">
+      <header class="flex items-center justify-between border-b p-4">
+        <h2 class="text-lg font-medium">Your cart</h2>
+        <button id="closeCart" class="rounded-xl p-2 hover:bg-neutral-100" aria-label="Close cart">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </header>
+
+      <div id="cartItems" class="space-y-4 overflow-y-auto p-4"></div>
+
+      <footer class="space-y-3 border-t p-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-neutral-600">Subtotal</span>
+          <span id="cartSubtotal" class="font-medium">£0.00</span>
+        </div>
+        <button id="checkoutBtn" class="w-full rounded-xl bg-neutral-900 py-3 text-white hover:bg-neutral-800">Checkout</button>
+        <p class="text-xs text-neutral-500">Taxes and shipping calculated at checkout.</p>
+      </footer>
+    </div>
+  </aside>
+
+  <div id="quickView" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" id="qvBackdrop" aria-hidden="true"></div>
+    <div class="absolute left-1/2 top-10 w-[92vw] max-w-3xl -translate-x-1/2 overflow-hidden rounded-2xl bg-white shadow-xl">
+      <div class="grid md:grid-cols-2">
+        <div class="aspect-square overflow-hidden bg-white md:h-full">
+          <img id="qvImage" src="" alt="Product image" class="h-full w-full object-contain p-4" />
+        </div>
+        <div class="space-y-3 p-6">
+          <h3 id="qvTitle" class="text-2xl font-semibold tracking-tight"></h3>
+          <div class="flex items-center gap-2">
+            <span id="qvPrice" class="text-lg font-medium"></span>
+            <span id="qvBadge" class="rounded-full bg-neutral-100 px-2 py-1 text-xs"></span>
+          </div>
+          <p id="qvDesc" class="text-sm text-neutral-600"></p>
+          <div class="flex items-center gap-2 pt-2">
+            <label class="text-sm">Qty</label>
+            <input id="qvQty" type="number" min="1" value="1" class="w-16 rounded-xl border px-2 py-1" />
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-2">
+            <button id="qvAdd" class="rounded-xl bg-neutral-900 py-2.5 text-white hover:bg-neutral-800">Add to cart</button>
+            <button id="qvClose" class="rounded-xl border py-2.5 hover:bg-neutral-50">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loginModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" id="loginBackdrop" aria-hidden="true"></div>
+    <div class="absolute left-1/2 top-10 w-[92vw] max-w-md -translate-x-1/2 overflow-hidden rounded-2xl bg-white shadow-xl">
+      <div class="space-y-4 p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold">Sign in</h3>
+          <button id="loginClose" class="rounded-xl p-2 hover:bg-neutral-100" aria-label="Close login">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <form id="loginForm" class="space-y-3">
+          <div>
+            <label class="text-sm">Email</label>
+            <input id="loginEmail" type="email" required class="mt-1 w-full rounded-xl border px-3 py-2" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label class="text-sm">Password</label>
+            <input id="loginPassword" type="password" required minlength="6" class="mt-1 w-full rounded-xl border px-3 py-2" placeholder="••••••••" />
+          </div>
+          <div class="flex items-center justify-between text-sm">
+            <label class="inline-flex items-center gap-2">
+              <input id="loginRemember" type="checkbox" class="rounded" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="text-neutral-600 hover:underline">Forgot password?</a>
+          </div>
+          <button class="w-full rounded-xl bg-neutral-900 py-2.5 text-white hover:bg-neutral-800">Sign in</button>
+        </form>
+
+        <p class="text-sm text-neutral-600">
+          No account? <a href="#" class="underline">Create one</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t bg-white">
+    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 text-sm md:grid-cols-4">
+      <div>
+        <p class="font-medium">Van Blanc</p>
+        <p class="mt-2 text-neutral-600">Minimal goods. Thoughtful design.</p>
+      </div>
+
+      <div>
+        <p class="font-medium">Shop</p>
+        <ul class="mt-2 space-y-2 text-neutral-600">
+          <li><a href="#" class="hover:underline">All</a></li>
+          <li><a href="#" class="hover:underline">Apparel</a></li>
+          <li><a href="#" class="hover:underline">New Drops</a></li>
+          <li><a href="#" class="hover:underline">Best Sellers</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-medium">Company</p>
+        <ul class="mt-2 space-y-2 text-neutral-600">
+          <li><a href="#" class="hover:underline">About</a></li>
+          <li><a href="#" class="hover:underline">Sustainability</a></li>
+          <li><a href="#" class="hover:underline">Careers</a></li>
+          <li><a href="#" class="hover:underline">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-medium">Join newsletter</p>
+        <div class="mt-2 flex gap-2">
+          <input type="email" placeholder="you@example.com" class="flex-1 rounded-xl border px-3 py-2" />
+          <button class="rounded-xl bg-neutral-900 px-4 text-white">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t py-4 text-center text-xs text-neutral-500">
+      © <span id="year"></span> Van Blanc. All rights reserved.
+    </div>
+  </footer>
+
+  <script src="../src/app.js"></script>
+</body>
+</html>

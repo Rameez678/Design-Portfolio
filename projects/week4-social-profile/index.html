@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Responsive Social Profile • Tailwind + JS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            container: { center: true, padding: '1rem' },
+            boxShadow: {
+              soft: '0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06)'
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root { --radius: 1.25rem; }
+      html { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+      .underline-slide::after {
+        content: "";position: absolute;left: 0;bottom: 0;height: 2px;width: 100%;transform: scaleX(0);transform-origin: left;background: currentColor;transition: transform .25s ease;
+      }
+      .underline-slide[aria-selected="true"]::after { transform: scaleX(1); }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+  </head>
+  <body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen">
+    <!-- App Shell -->
+    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-zinc-900/60 bg-white/95 dark:bg-zinc-900/95 border-b border-zinc-200 dark:border-zinc-800">
+      <div class="container max-w-6xl flex items-center gap-3 py-3">
+        <button id="mobileMenuBtn" class="md:hidden p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Open menu">
+          <!-- menu icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <a href="#" class="flex items-center gap-2 font-semibold">
+          <div class="size-8 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500"></div>
+          <span>Social Web </span>
+        </a>
+        <div class="ml-auto flex items-center gap-2">
+          <div class="hidden md:flex items-center gap-2">
+            <label class="relative block w-72">
+              <span class="sr-only">Search</span>
+              <input class="w-full rounded-2xl bg-zinc-100 dark:bg-zinc-800/70 focus:bg-white dark:focus:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 py-2.5 pl-10 pr-4 outline-none focus:ring-2 focus:ring-indigo-500/30" placeholder="Search" type="search" />
+              <svg class="size-5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"/></svg>
+            </label>
+          </div>
+          <button id="themeToggle" class="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Toggle dark mode">
+            <svg id="sunIcon" class="size-6 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93 6.34 6.34m11.32 11.32 1.41 1.41m0-12.73-1.41 1.41M6.34 17.66 4.93 19.07"/></svg>
+            <svg id="moonIcon" class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/></svg>
+          </button>
+          <button id="notifBtn" class="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 relative" aria-label="Notifications">
+            <span class="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-fuchsia-500 ring-2 ring-white dark:ring-zinc-900"></span>
+            <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5m6 0v1a3 3 0 1 1-6 0v-1m6 0H9"/></svg>
+          </button>
+          <img class="size-9 rounded-2xl border border-zinc-200 dark:border-zinc-700" src="https://ui-avatars.com/api/?name=Rameez+Asghar&background=4f46e5&color=ffffff&rounded=true&size=256" alt="User avatar"/>
+        </div>
+      </div>
+    </header>
+
+    <main class="container max-w-6xl py-6 md:py-10">
+      <!-- Cover + Avatar card -->
+      <section class="rounded-[var(--radius)] overflow-hidden shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+        <div class="relative h-40 sm:h-56 md:h-64 bg-gradient-to-br from-indigo-500 via-sky-500 to-fuchsia-500 overflow-hidden">
+          <button id="editCover" class="absolute bottom-3 right-3 text-xs px-3 py-1.5 rounded-lg bg-white/80 dark:bg-zinc-900/70 backdrop-blur hover:bg-white dark:hover:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-700/60">Change cover</button>
+        </div>
+        <div class="p-4 md:p-6 pt-6 md:pt-8">
+          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div class="flex items-end gap-4 mt-2 md:mt-4 relative z-10">
+              <img class="size-28 md:size-32 rounded-3xl border-4 border-white dark:border-zinc-900 shadow-lg" src="https://ui-avatars.com/api/?name=Rameez+Asghar&background=4f46e5&color=ffffff&rounded=true&size=320" alt="Profile avatar"/>
+              <div class="space-y-1">
+                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Rameez Asghar</h1>
+                <p class="text-zinc-600 dark:text-zinc-400">Developer • Profile</p>
+                <div class="flex flex-wrap gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  <span class="inline-flex items-center gap-1"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 8h.01"/><path d="M12 22s8-4 8-10a8 8 0 1 0-16 0c0 6 8 10 8 10Z"/></svg>Joined 2025</span>
+                  <span>•</span>
+                  <span><strong id="followersCount">8,245</strong> followers</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="shareBtn" class="px-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800">Share</button>
+              <button id="followBtn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium">Follow</button>
+              <button id="msgBtn" class="px-4 py-2 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:opacity-90">Message</button>
+            </div>
+          </div>
+
+          <!-- Tab Navigation -->
+          <nav class="mt-6 border-b border-zinc-200 dark:border-zinc-800 overflow-x-auto no-scrollbar" role="tablist" aria-label="Profile sections">
+            <ul class="flex items-center gap-6 text-sm font-medium">
+              <li><button class="relative py-3 text-zinc-600 dark:text-zinc-400 aria-selected:text-zinc-900 dark:aria-selected:text-zinc-100 underline-slide" role="tab" aria-selected="true" aria-controls="tab-posts" id="tabPostsBtn">Posts</button></li>
+              <li><button class="relative py-3 text-zinc-600 dark:text-zinc-400 aria-selected:text-zinc-900 dark:aria-selected:text-zinc-100 underline-slide" role="tab" aria-selected="false" aria-controls="tab-about" id="tabAboutBtn">About</button></li>
+              <li><button class="relative py-3 text-zinc-600 dark:text-zinc-400 aria-selected:text-zinc-900 dark:aria-selected:text-zinc-100 underline-slide" role="tab" aria-selected="false" aria-controls="tab-photos" id="tabPhotosBtn">Photos</button></li>
+            </ul>
+          </nav>
+        </div>
+      </section>
+
+      <!-- Main Content Grid -->
+      <section class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left column: About card + Links -->
+        <aside class="space-y-6 lg:col-span-1">
+          <div class="rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5">
+            <h2 class="text-lg font-semibold">About Rameez</h2>
+            <p class="mt-2 text-zinc-700 dark:text-zinc-300" id="bioText">Building projects, sharing ideas, and growing my developer portfolio.</p>
+            <button id="editBioBtn" class="mt-3 text-sm px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800">Edit bio</button>
+            <ul class="mt-5 space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+              <li class="flex items-center gap-2"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/></svg> <a class="hover:underline" href="https://linkedin.com/in/rameezasghar" target="_blank" rel="noopener noreferrer">linkedin.com/in/rameezasghar</a></li>
+              <li class="flex items-center gap-2"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg> <a class="hover:underline" href="https://github.com/Rameez678" target="_blank" rel="noopener noreferrer">github.com/Rameez678</a></li>
+              <li class="flex items-center gap-2"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 7h20M2 12h20M2 17h20"/></svg> UI • Design Systems • Accessibility</li>
+            </ul>
+          </div>
+
+          </aside>
+
+        <!-- Right column: Tabs content -->
+        <div class="lg:col-span-2 space-y-6">
+          <!-- Composer -->
+          <div class="rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4">
+            <div class="flex items-start gap-3">
+              <img class="size-10 rounded-2xl" src="https://ui-avatars.com/api/?name=Rameez+Asghar&background=4f46e5&color=ffffff&rounded=true&size=128" alt="me"/>
+              <button id="openComposer" class="flex-1 text-left px-4 py-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/80 dark:hover:bg-zinc-700">Share an update...</button>
+            </div>
+          </div>
+
+          <!-- Posts Tab -->
+          <div id="tab-posts" role="tabpanel" aria-labelledby="tabPostsBtn" class="grid gap-6">
+            <div class="rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5">
+              <h3 class="font-semibold mb-3">Process of making a social media page / post website</h3>
+              <img class="w-full rounded-2xl border border-zinc-200 dark:border-zinc-700" src="vs-shot.png" alt="Process screenshot">
+              <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-2">Development process shown in VS Code while building the social media profile and post layout.</p>
+            </div>
+            <div class="rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5">
+              <h2 class="text-lg font-semibold mb-4">Current Projects</h2>
+              <div class="grid md:grid-cols-2 gap-4">
+                <a href="#" class="block p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800">
+                  <h3 class="font-semibold">Portfolio Website</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400">Personal portfolio showcasing your skills, background, and developer work.</p>
+                </a>
+                <a href="#" class="block p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800">
+                  <h3 class="font-semibold">Web Dev Quiz App</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400">Interactive quiz project with categories, difficulty levels, timer, and leaderboard.</p>
+                </a>
+                <a href="#" class="block p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 md:col-span-2">
+                  <h3 class="font-semibold">Van Blanc Store</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400">Streetwear landing page with featured clothing pieces and a clean storefront layout.</p>
+                </a>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- About Tab -->
+          <div id="tab-about" role="tabpanel" aria-labelledby="tabAboutBtn" class="hidden">
+            <div class="rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 space-y-4">
+              <h3 class="text-lg font-semibold">About</h3>
+              <dl class="grid sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                <div>
+                  <dt class="text-zinc-500">Location</dt>
+                  <dd>Manchester, United Kingdom</dd>
+                </div>
+                <div>
+                  <dt class="text-zinc-500">Role</dt>
+                  <dd>Software Developer</dd>
+                </div>
+                <div>
+                  <dt class="text-zinc-500">Skills</dt>
+                  <dd>Web Development, JavaScript, GitHub, Projects,Cloud Computing</dd>
+                </div>
+                <div>
+                  <dt class="text-zinc-500">Interests</dt>
+                  <dd>Coding, building projects, learning, and tech</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <!-- Photos Tab -->
+          <div id="tab-photos" role="tabpanel" aria-labelledby="tabPhotosBtn" class="hidden">
+            <div class="rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5">
+              <h3 class="text-lg font-semibold mb-4">Uploaded Work</h3>
+              <div class="space-y-4">
+                <div class="rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800">
+                  <img class="w-full object-cover" src="vs-shot.png" alt="Process of making a social media page and post website" />
+                </div>
+                <div>
+                  <h4 class="font-semibold text-base">Process of making a social media page / post website</h4>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">A screenshot showing the development process of building the social media profile and post layout in VS Code.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Composer Modal -->
+    <div id="composer" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="composerTitle">
+      <div class="absolute inset-0 bg-black/40" data-overlay></div>
+      <div class="relative mx-auto max-w-lg mt-24 p-4">
+        <div class="rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+          <header class="p-4 border-b border-zinc-200 dark:border-zinc-800 flex items-center">
+            <h3 id="composerTitle" class="font-semibold">Create post</h3>
+            <button class="ml-auto p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800" data-close aria-label="Close">
+              <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M6 18 18 6"/></svg>
+            </button>
+          </header>
+          <div class="p-4 space-y-3">
+            <textarea id="composerText" rows="4" class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3 outline-none focus:ring-2 focus:ring-indigo-500/30" placeholder="What's on your mind?"></textarea>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                <button class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Add photo">
+                  <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="3"/></svg>
+                </button>
+                <button class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Tag friend">
+                  <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </button>
+              </div>
+              <button id="postBtn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium disabled:opacity-50" disabled>Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile drawer  -->
+    <div id="drawer" class="fixed inset-y-0 left-0 w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 shadow-soft -translate-x-full transition-transform duration-300 z-50">
+      <div class="p-4 flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800">
+        <div class="size-8 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500"></div>
+        <strong>Socio</strong>
+        <button id="closeDrawer" class="ml-auto p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Close menu">
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M6 18 18 6"/></svg>
+        </button>
+      </div>
+      <nav class="p-2 text-sm">
+        <a class="flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" href="#">Home</a>
+        <a class="flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" href="#">Explore</a>
+        <a class="flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" href="#">Messages</a>
+        <a class="flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" href="#">Settings</a>
+      </nav>
+    </div>
+
+    <script>
+      // Dark mode toggle (remember choice)
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const storedTheme = localStorage.getItem('theme')
+      if ((storedTheme === 'dark') || (!storedTheme && prefersDark)) document.documentElement.classList.add('dark')
+      const themeToggle = document.getElementById('themeToggle')
+      const sunIcon = document.getElementById('sunIcon')
+      const moonIcon = document.getElementById('moonIcon')
+      function refreshThemeIcons(){
+        const isDark = document.documentElement.classList.contains('dark')
+        sunIcon.classList.toggle('hidden', !isDark)
+        moonIcon.classList.toggle('hidden', isDark)
+      }
+      refreshThemeIcons()
+      themeToggle?.addEventListener('click', ()=>{
+        document.documentElement.classList.toggle('dark')
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+        refreshThemeIcons()
+      })
+
+      //Tabs
+      const tabs = [
+        {btn: '#tabPostsBtn', panel: '#tab-posts'},
+        {btn: '#tabAboutBtn', panel: '#tab-about'},
+        {btn: '#tabPhotosBtn', panel: '#tab-photos'},
+      ]
+      tabs.forEach(({btn, panel}) => {
+        const b = document.querySelector(btn), p = document.querySelector(panel)
+        b?.addEventListener('click', () => {
+          tabs.forEach(({btn:bb, panel:pp}) => {
+            const _b = document.querySelector(bb), _p = document.querySelector(pp)
+            _b?.setAttribute('aria-selected', bb===btn ? 'true' : 'false')
+            if (bb===btn) {
+              _p?.classList.remove('hidden')
+            } else {
+              _p?.classList.add('hidden')
+            }
+          })
+        })
+      })
+
+      //Follow button + followers counter
+      const followBtn = document.getElementById('followBtn')
+      const followersCount = document.getElementById('followersCount')
+      let followed = false
+      function formatNumber(n){return n.toLocaleString()}
+      followBtn?.addEventListener('click', () => {
+        followed = !followed
+        followBtn.textContent = followed ? 'Following' : 'Follow'
+        followBtn.classList.toggle('bg-indigo-600', !followed)
+        followBtn.classList.toggle('bg-zinc-200', followed)
+        followBtn.classList.toggle('text-zinc-900', followed)
+        // naive demo increment/decrement
+        const base = parseInt((followersCount.textContent || '0').replace(/,/g,''),10)
+        followersCount.textContent = formatNumber(base + (followed ? 1 : -1))
+      })
+
+      // Post interactions (like/bookmark demo)
+      document.querySelectorAll('[data-like]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const countEl = btn.querySelector('[data-like-count]')
+          const current = parseInt(countEl.textContent, 10)
+          const active = btn.classList.toggle('text-rose-500')
+          countEl.textContent = String(current + (active ? 1 : -1))
+        })
+      })
+      document.querySelectorAll('[data-bookmark]').forEach(btn => {
+        btn.addEventListener('click', () => btn.classList.toggle('text-indigo-600'))
+      })
+
+      //Modal composer
+      const composer = document.getElementById('composer')
+      const openComposer = document.getElementById('openComposer')
+      const postBtn = document.getElementById('postBtn')
+      const composerText = document.getElementById('composerText')
+      const closeControls = composer.querySelectorAll('[data-close], [data-overlay]')
+
+      function openModal(){ composer.classList.remove('hidden'); composerText.focus() }
+      function closeModal(){ composer.classList.add('hidden'); composerText.value=''; postBtn.disabled=true }
+
+      openComposer?.addEventListener('click', openModal)
+      closeControls.forEach(el => el.addEventListener('click', closeModal))
+      composerText?.addEventListener('input', () => {
+        postBtn.disabled = composerText.value.trim().length === 0
+      })
+      postBtn?.addEventListener('click', () => {
+        //  create a simple post card on submit
+        const feed = document.querySelector('#tab-posts')
+        const card = document.createElement('article')
+        card.className = 'rounded-[var(--radius)] shadow-soft bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800'
+        card.innerHTML = `
+          <header class="p-4 flex items-center gap-3">
+            <img class="size-10 rounded-2xl" src="https://ui-avatars.com/api/?name=Rameez+Asghar&background=4f46e5&color=ffffff&rounded=true&size=128" alt="Alex"/>
+            <div class="leading-tight">
+              <h3 class="font-semibold">Rameez Asghar</h3>
+              <p class="text-xs text-zinc-500">Just now • Only me</p>
+            </div>
+          </header>
+          <div class="px-4 pb-4">
+            <p>${composerText.value.replace(/</g,'&lt;')}</p>
+          </div>
+        `
+        feed.prepend(card)
+        closeModal()
+      })
+
+      // Simple edit bio prompt 
+      document.getElementById('editBioBtn')?.addEventListener('click', () => {
+        const bio = document.getElementById('bioText')
+        const val = prompt('Update your bio:', bio.textContent)
+        if (val !== null) bio.textContent = val
+      })
+
+      // Mobile drawer 
+      const drawer = document.getElementById('drawer')
+      document.getElementById('mobileMenuBtn')?.addEventListener('click', ()=>{
+        drawer.classList.remove('-translate-x-full')
+      })
+      document.getElementById('closeDrawer')?.addEventListener('click', ()=>{
+        drawer.classList.add('-translate-x-full')
+      })
+
+      // Accessibility niceties for ESC to close composer
+      window.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape' && !composer.classList.contains('hidden')) closeModal()
+      })
+    </script>
+  </body>
+</html>
